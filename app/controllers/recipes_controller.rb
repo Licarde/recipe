@@ -8,7 +8,7 @@ class RecipesController < ApplicationController
         ingredients: params[:ingredients],
         cost: params[:cost]
       )
-      render json: { message: "Recipe successfully created!", recipe: recipe.as_json }
+      render json: { message: "Recipe successfully created!", recipe: recipe.to_json }
     else
       render json: { message: "Recipe creation failed", required: "title, making_time, serves, ingredients, cost" }
     end
@@ -16,13 +16,13 @@ class RecipesController < ApplicationController
 
   def index
     recipes = Recipe.all
-    render json: { recipes: [recipes.as_json] }
+    render json: { recipes: recipes.as_json }
   end
 
   def show
     recipe = Recipe.where(id: params[:id])
     if recipe
-      render json: { message: "Recipe details by id", recipe: [recipe.as_json] }
+      render json: { message: "Recipe details by id", recipe: recipe.to_json }
     else
       render json: { message: "Recipe not found" }
     end
@@ -37,7 +37,7 @@ class RecipesController < ApplicationController
       recipe.ingredients = params[:ingredients] if params[:ingredients]
       recipe.cost = params[:cost] if params[:cost]
       if recipe.save
-        render json: { message: "Recipe successfully updated!", recipe: recipe.as_json }
+        render json: { message: "Recipe successfully updated!", recipe: recipe.to_json }
       end
     end
   end
