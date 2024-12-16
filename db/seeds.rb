@@ -17,7 +17,7 @@ Recipe.create([
     title: "オムライス",
     making_time: "30分",
     serves: "2人",
-    ingredients: "玉ねぎ,卵,スパイス,醤油",
+    ingredients: "玉ねぎ,トマト,スパイス,水",
     cost: 700
   }
 ])
