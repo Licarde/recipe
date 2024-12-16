@@ -1,13 +1,13 @@
 class RecipesController < ApplicationController
   def create
-    recipe = Recipe.new(
-      title: params[:title],
-      making_time: params[:making_time],
-      serves: params[:serves],
-      ingredients: params[:ingredients],
-      cost: params[:cost]
-    )
-    if recipe.save
+    if recipe.title && recipe.making_time && recipe.serves && recipe.ingredients && recipe.cost
+      recipe = Recipe.create(
+        title: params[:title],
+        making_time: params[:making_time],
+        serves: params[:serves],
+        ingredients: params[:ingredients],
+        cost: params[:cost]
+      )
       render json: { message: "Recipe successfully created!", recipe: recipe.as_json }
     else
       render json: { message: "Recipe creation failed", required: "title, making_time, serves, ingredients, cost" }
@@ -16,7 +16,7 @@ class RecipesController < ApplicationController
 
   def index
     recipes = Recipe.all
-    render json: { recipes: recipes.as_json }
+    render json: { recipes: [recipes.as_json] }
   end
 
   def show
@@ -38,11 +38,7 @@ class RecipesController < ApplicationController
       recipe.cost = params[:cost] if params[:cost]
       if recipe.save
         render json: { message: "Recipe successfully updated!", recipe: recipe.as_json }
-      else
-        render json: { message: "Recipe update failed", required: "title, making_time, serves, ingredients, cost" }
       end
-    else
-      render json: { message: "Recipe not found" }
     end
   end
 
@@ -52,7 +48,7 @@ class RecipesController < ApplicationController
       recipe.destroy
       render json: { message: "Recipe successfully removed!" }
     else
-      render json: { message: "Recipe not found" }
+      render json: { message: "No Recipe found" }
     end
   end
 end
